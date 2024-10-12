@@ -36,7 +36,7 @@ public final class SchedulerModule extends Module {
     log = injector().getInstance(Log.class).subLog("Scheduler");
     accountLink = SchedulerAccountLink.create();
     schedulerTriggerSchedule = SchedulerTriggerSchedule.create(
-      injector().getInstance(CoreModule.class));
+      injector().getInstance(CoreModule.class), triggerRepository());
     schedulerTriggerSchedule.start();
 
   }

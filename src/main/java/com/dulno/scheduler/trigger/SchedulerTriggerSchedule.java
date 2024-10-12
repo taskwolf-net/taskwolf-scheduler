@@ -1,7 +1,9 @@
 package com.dulno.scheduler.trigger;
 
 import com.dulno.core.CoreModule;
+import com.dulno.core.database.condition.DatabaseComparison;
 import com.dulno.core.database.condition.DatabaseCondition;
+import com.dulno.core.trigger.TriggerRepository;
 import com.google.common.collect.Maps;
 import lombok.RequiredArgsConstructor;
 
@@ -11,6 +13,7 @@ import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 import java.time.temporal.ChronoUnit;
+import java.util.UUID;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.ScheduledFuture;
@@ -19,6 +22,7 @@ import java.util.concurrent.TimeUnit;
 @RequiredArgsConstructor(staticName = "create")
 public final class SchedulerTriggerSchedule {
   private final CoreModule coreModule;
+  private final TriggerRepository triggerRepository;
   private final ScheduledExecutorService executorService = Executors.newScheduledThreadPool(1);
   private ScheduledFuture<?> scheduler;
 
@@ -37,24 +41,12 @@ public final class SchedulerTriggerSchedule {
   }
 
   private void execute() {
-    executeHourlyTriggers();;
-    executeDailyTriggers();
+    executeSchedulerTriggers("scheduler-hourly-trigger");
+    executeSchedulerTriggers("scheduler-daily-trigger");
     executeWeeklyTriggers();
     executeMonthlyTriggers();
     executeYearlyTriggers();
     executeIndividualTriggers();
-  }
-
-  private void executeHourlyTriggers() {
-    var currentMinute = LocalTime.now().getMinute();
-    coreModule.triggerWorkflows("scheduler", "scheduler-hourly-trigger",
-      DatabaseCondition.of("offset", currentMinute), Maps.newHashMap());
-  }
-
-  private void executeDailyTriggers() {
-    var currentTime = LocalTime.now().format(DateTimeFormatter.ofPattern("HH:mm"));
-    coreModule.triggerWorkflows("scheduler", "scheduler-daily-trigger",
-      DatabaseCondition.of("time", currentTime), Maps.newHashMap());
   }
 
   private void executeWeeklyTriggers() {
@@ -85,6 +77,22 @@ public final class SchedulerTriggerSchedule {
 
   private void executeIndividualTriggers() {
     //TODO: TO BE IMPLEMENTED
+  }
+
+  private void executeSchedulerTriggers(String type) {
+    var trigger = (SchedulerTrigger) triggerRepository.findTrigger(type).get();
+    var condition = DatabaseCondition.of(DatabaseCondition.Filtering.ALLOWED,
+      DatabaseComparison.create("nextExecution", System.currentTimeMillis(),
+        DatabaseComparison.Type.SMALLER_EQUALS));
+    coreModule.findSomeTriggerEntries("scheduler", type, condition)
+      .thenAccept(entries -> entries.forEach(entry -> trigger.findContent(entry.id())
+        .thenAccept(content -> trigger.updateNextExecution(entry.id(), content)
+          .thenAccept(value -> executeSchedulerTrigger(entry.id())))));
+  }
+
+  private void executeSchedulerTrigger(UUID triggerId) {
+    coreModule.createWorkflow(triggerId)
+      .thenAccept(workflow -> workflow.trigger(Maps.newHashMap()));
   }
 
   public void stop() {
