@@ -2,4 +2,44 @@
   "scheduler.link.description": "Great news! You don't need to link an account to use this module. Just click on \"skip\" to go to the next page.",
 
   "scheduler": "Scheduler",
+
+  "scheduler.trigger.hourly.name": "Hourly execution",
+  "scheduler.trigger.hourly.description": "Is triggered every hour at a certain time",
+  "scheduler.trigger.hourly.input.offset.name": "Offset",
+  "scheduler.trigger.hourly.input.offset.description": "The minute in which the workflow is to be triggered. The value must be between 0 and 59",
+
+  "scheduler.trigger.daily.name": "Daily execution",
+  "scheduler.trigger.daily.description": "Is triggered every day at a certain time",
+  "scheduler.trigger.daily.input.time.name": "Time",
+  "scheduler.trigger.daily.input.time.description": "The time on the day at which the triggering should take place",
+
+  "scheduler.trigger.weekly.name": "Weekly execution",
+  "scheduler.trigger.weekly.description": "Is triggered every week at a certain day and time",
+  "scheduler.trigger.weekly.input.day.name": "Day",
+  "scheduler.trigger.weekly.input.day.description": "The day of the week at which the triggering should take place",
+  "scheduler.trigger.weekly.input.time.name": "Time",
+  "scheduler.trigger.weekly.input.time.description": "The time on the day at which the triggering should take place",
+  "scheduler.trigger.weekly.monday": "Monday",
+  "scheduler.trigger.weekly.tuesday": "Tuesday",
+  "scheduler.trigger.weekly.wednesday": "Wednesday",
+  "scheduler.trigger.weekly.thursday": "Thursday",
+  "scheduler.trigger.weekly.friday": "Friday",
+  "scheduler.trigger.weekly.saturday": "Saturday",
+  "scheduler.trigger.weekly.sunday": "Sunday",
+
+  "scheduler.trigger.monthly.name": "Monthly execution",
+  "scheduler.trigger.monthly.description": "Is triggered every month at a certain day and time",
+  "scheduler.trigger.monthly.input.day.name": "Day",
+  "scheduler.trigger.monthly.input.day.description": "The day of the month at which the triggering should take place. The value must be between 1 and 31",
+  "scheduler.trigger.monthly.input.time.name": "Time",
+  "scheduler.trigger.monthly.input.time.description": "The time on the day at which the triggering should take place",
+
+  "scheduler.trigger.yearly.name": "Yearly execution",
+  "scheduler.trigger.yearly.description": "Is triggered every year at a certain month, day and time",
+  "scheduler.trigger.yearly.input.day.name": "Day",
+  "scheduler.trigger.yearly.input.day.description": "The day of the month at which the triggering should take place. The value must be between 1 and 31",
+  "scheduler.trigger.yearly.input.month.name": "Month",
+  "scheduler.trigger.yearly.input.month.description": "The month of the year at which the triggering should take place. The value must be between 1 and 12",
+  "scheduler.trigger.yearly.input.time.name": "Time",
+  "scheduler.trigger.yearly.input.time.description": "The time on the day at which the triggering should take place"
 }

@@ -1,5 +1,45 @@
 {
   "scheduler.link.description": "Gute Nachrichten! Sie brauchen kein Konto zu verknüpfen, um dieses Modul zu nutzen. Klicken Sie einfach auf \"Überspringen\", um zur nächsten Seite zu gelangen.",
 
-  "scheduler": "Zeitplan"
+  "scheduler": "Zeitplan",
+
+  "scheduler.trigger.hourly.name": "Stündliche Ausführung",
+  "scheduler.trigger.hourly.description": "Wird jede Stunde zu einer bestimmten Zeit ausgelöst",
+  "scheduler.trigger.hourly.input.offset.name": "Verschiebung",
+  "scheduler.trigger.hourly.input.offset.description": "Die Minute, in der der Workflow ausgelöst werden soll. Der Wert muss zwischen 0 und 59 liegen",
+
+  "scheduler.trigger.daily.name": "Tägliche Ausführung",
+  "scheduler.trigger.daily.description": "Wird jeden Tag zu einer bestimmten Zeit ausgelöst",
+  "scheduler.trigger.daily.input.time.name": "Zeit",
+  "scheduler.trigger.daily.input.time.description": "Die Uhrzeit des Tages, an dem die Auslösung erfolgen soll",
+
+  "scheduler.trigger.weekly.name": "Wöchentliche Ausführung",
+  "scheduler.trigger.weekly.description": "Wird jede Woche an einem bestimmten Tag und zu einer bestimmten Uhrzeit ausgelöst",
+  "scheduler.trigger.weekly.input.day.name": "Tag",
+  "scheduler.trigger.weekly.input.day.description": "Der Wochentag, an dem die Auslösung erfolgen soll",
+  "scheduler.trigger.weekly.input.time.name": "Zeit",
+  "scheduler.trigger.weekly.input.time.description": "Die Uhrzeit des Tages, an dem die Auslösung erfolgen soll",
+  "scheduler.trigger.weekly.monday": "Montag",
+  "scheduler.trigger.weekly.tuesday": "Dienstag",
+  "scheduler.trigger.weekly.wednesday": "Mittwoch",
+  "scheduler.trigger.weekly.thursday": "Donnerstag",
+  "scheduler.trigger.weekly.friday": "Freitag",
+  "scheduler.trigger.weekly.saturday": "Samstag",
+  "scheduler.trigger.weekly.sunday": "Sonntag",
+
+  "scheduler.trigger.monthly.name": "Monatliche Ausführung",
+  "scheduler.trigger.monthly.description": "Wird jeden Monat an einem bestimmten Tag und zu einer bestimmten Uhrzeit ausgelöst",
+  "scheduler.trigger.monthly.input.day.name": "Tag",
+  "scheduler.trigger.monthly.input.day.description": "Der Tag des Monats, an dem die Auslösung erfolgen soll. Der Wert muss zwischen 1 und 31 liegen",
+  "scheduler.trigger.monthly.input.time.name": "Zeit",
+  "scheduler.trigger.monthly.input.time.description": "Die Uhrzeit des Tages, an dem die Auslösung erfolgen soll",
+
+  "scheduler.trigger.yearly.name": "Jährliche Ausführung",
+  "scheduler.trigger.yearly.description": "Wird jedes Jahr zu einem bestimmten Monat, Tag und einer bestimmten Uhrzeit ausgelöst",
+  "scheduler.trigger.yearly.input.day.name": "Tag",
+  "scheduler.trigger.yearly.input.day.description": "Der Tag des Monats, an dem die Auslösung erfolgen soll. Der Wert muss zwischen 1 und 31 liegen",
+  "scheduler.trigger.yearly.input.month.name": "Monat",
+  "scheduler.trigger.yearly.input.month.description": "Der Monat des Jahres, in dem die Auslösung erfolgen soll. Der Wert muss zwischen 1 und 12 liegen",
+  "scheduler.trigger.yearly.input.time.name": "Zeit",
+  "scheduler.trigger.yearly.input.time.description": "Die Uhrzeit des Tages, an dem die Auslösung erfolgen soll"
 }
