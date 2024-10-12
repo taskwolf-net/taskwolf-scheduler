@@ -41,7 +41,7 @@ public final class SchedulerDailyTrigger implements Trigger {
       .withName("scheduler.trigger.daily.name")
       .withDescription("scheduler.trigger.daily.description")
       .withInputVariable(InputComponentVariable.createRequired("scheduler.trigger.daily.input.time.name",
-        "time", "scheduler.trigger.daily.input.time.description", InputComponentDataType.DATE))
+        "time", "scheduler.trigger.daily.input.time.description", InputComponentDataType.TIME))
       .build();
   }
 

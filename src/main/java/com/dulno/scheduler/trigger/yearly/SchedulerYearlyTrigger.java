@@ -47,7 +47,7 @@ public final class SchedulerYearlyTrigger implements Trigger {
       .withInputVariable(InputComponentVariable.createRequired("scheduler.trigger.yearly.input.month.name",
         "month", "scheduler.trigger.yearly.input.month.description", "1 - 12", InputComponentDataType.TEXT))
       .withInputVariable(InputComponentVariable.createRequired("scheduler.trigger.yearly.input.time.name",
-        "time", "scheduler.trigger.yearly.input.time.description", InputComponentDataType.DATE))
+        "time", "scheduler.trigger.yearly.input.time.description", InputComponentDataType.TIME))
       .build();
   }
 

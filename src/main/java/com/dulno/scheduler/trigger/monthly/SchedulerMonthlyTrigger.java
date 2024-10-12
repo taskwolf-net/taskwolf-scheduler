@@ -44,7 +44,7 @@ public final class SchedulerMonthlyTrigger implements Trigger {
       .withInputVariable(InputComponentVariable.createRequired("scheduler.trigger.monthly.input.day.name",
         "day", "scheduler.trigger.monthly.input.day.description", "1 - 31", InputComponentDataType.TEXT))
       .withInputVariable(InputComponentVariable.createRequired("scheduler.trigger.monthly.input.time.name",
-        "time", "scheduler.trigger.monthly.input.time.description", InputComponentDataType.DATE))
+        "time", "scheduler.trigger.monthly.input.time.description", InputComponentDataType.TIME))
       .build();
   }
 

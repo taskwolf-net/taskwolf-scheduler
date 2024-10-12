@@ -46,7 +46,7 @@ public final class SchedulerWeeklyTrigger implements Trigger {
       .withInputVariable(InputComponentVariable.createSelect("scheduler.trigger.weekly.input.day.name",
         "day", "scheduler.trigger.weekly.input.day.description", weekDayComponentSelect))
       .withInputVariable(InputComponentVariable.createRequired("scheduler.trigger.weekly.input.time.name",
-        "time", "scheduler.trigger.weekly.input.time.description", InputComponentDataType.DATE))
+        "time", "scheduler.trigger.weekly.input.time.description", InputComponentDataType.TIME))
       .build();
   }
 
