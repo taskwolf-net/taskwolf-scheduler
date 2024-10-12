@@ -1,4 +1,4 @@
-package com.dulno.scheduler.trigger;
+package com.dulno.scheduler.trigger.hourly;
 
 import com.dulno.core.database.*;
 import com.dulno.core.database.condition.DatabaseCondition;
@@ -7,7 +7,6 @@ import com.dulno.core.trigger.TriggerContentDatabaseTable;
 import com.dulno.core.trigger.TriggerInformation;
 import com.dulno.core.workflow.component.input.InputComponentDataType;
 import com.dulno.core.workflow.component.input.InputComponentVariable;
-import com.dulno.core.workflow.component.output.OutputComponentVariable;
 import com.google.common.collect.Lists;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
@@ -41,9 +40,8 @@ public final class SchedulerHourlyTrigger implements Trigger {
     return TriggerInformation.builder()
       .withName("scheduler.trigger.hourly.name")
       .withDescription("scheduler.trigger.hourly.description")
-      .withInputVariable(InputComponentVariable.createRequired("scheduler.trigger.hourly.input.offset.name",
-        "offset", "scheduler.trigger.hourly.input.offset.description", InputComponentDataType.NUMBER))
-      .withOutputVariable(OutputComponentVariable.create("scheduler.trigger.hourly.input.offset.interval", "offset"))
+      .withInputVariable(InputComponentVariable.createOptional("scheduler.trigger.hourly.input.offset.name",
+        "offset", "scheduler.trigger.hourly.input.offset.description", "0 - 59", InputComponentDataType.TEXT))
       .build();
   }
 
@@ -56,7 +54,23 @@ public final class SchedulerHourlyTrigger implements Trigger {
   @Override
   public CompletableFuture<Void> insert(UUID triggerId, Map<String, Object> content) {
     return contentDatabaseTable.insertContent(triggerId,
-      DatabaseRow.of(Integer.valueOf((String) content.get("offset"))));
+      DatabaseRow.of(parseOffset(content)));
+  }
+
+  private int parseOffset(Map<String, Object> content) {
+    try {
+      var offset = content.get("offset");
+      if (offset == null) {
+        return 0;
+      }
+      var value = Integer.valueOf((String) offset);
+      if (value < 0 || value > 59) {
+        return 0;
+      }
+      return value;
+    } catch (Exception exception) {
+      return 0;
+    }
   }
 
   @Override
