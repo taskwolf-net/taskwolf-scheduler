@@ -43,36 +43,10 @@ public final class SchedulerTriggerSchedule {
   private void execute() {
     executeSchedulerTriggers("scheduler-hourly-trigger");
     executeSchedulerTriggers("scheduler-daily-trigger");
-    executeWeeklyTriggers();
-    executeMonthlyTriggers();
-    executeYearlyTriggers();
+    executeSchedulerTriggers("scheduler-weekly-trigger");
+    executeSchedulerTriggers("scheduler-monthly-trigger");
+    executeSchedulerTriggers("scheduler-yearly-trigger");
     executeIndividualTriggers();
-  }
-
-  private void executeWeeklyTriggers() {
-    var currentDay = LocalDate.now().getDayOfWeek().getValue();
-    var currentTime = LocalTime.now().format(DateTimeFormatter.ofPattern("HH:mm"));
-    coreModule.triggerWorkflows("scheduler", "scheduler-weekly-trigger",
-      DatabaseCondition.of("day", currentDay, "time", currentTime,
-        DatabaseCondition.Filtering.ALLOWED), Maps.newHashMap());
-  }
-
-  private void executeMonthlyTriggers() {
-    var currentDay = LocalDate.now().getDayOfMonth();
-    var currentTime = LocalTime.now().format(DateTimeFormatter.ofPattern("HH:mm"));
-    coreModule.triggerWorkflows("scheduler", "scheduler-monthly-trigger",
-      DatabaseCondition.of("day", currentDay, "time", currentTime,
-        DatabaseCondition.Filtering.ALLOWED), Maps.newHashMap());
-  }
-
-  private void executeYearlyTriggers() {
-    var currentDay = LocalDate.now().getDayOfMonth();
-    var currentMonth = LocalDate.now().getMonth().getValue();
-    var currentTime = LocalTime.now().format(DateTimeFormatter.ofPattern("HH:mm"));
-    coreModule.triggerWorkflows("scheduler", "scheduler-yearly-trigger",
-      DatabaseCondition.of("day", currentDay, "month", currentMonth,
-        "time", currentTime, DatabaseCondition.Filtering.ALLOWED),
-      Maps.newHashMap());
   }
 
   private void executeIndividualTriggers() {
