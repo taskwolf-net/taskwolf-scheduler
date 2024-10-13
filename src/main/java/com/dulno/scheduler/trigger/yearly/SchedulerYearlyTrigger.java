@@ -6,14 +6,14 @@ import com.dulno.core.trigger.TriggerContentDatabaseTable;
 import com.dulno.core.trigger.TriggerInformation;
 import com.dulno.core.workflow.component.input.InputComponentDataType;
 import com.dulno.core.workflow.component.input.InputComponentVariable;
+import com.dulno.scheduler.trigger.CronTriggerContext;
 import com.dulno.scheduler.trigger.SchedulerTrigger;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
+import org.springframework.scheduling.support.CronTrigger;
 
-import java.time.LocalDateTime;
-import java.time.YearMonth;
 import java.time.ZoneId;
 import java.util.List;
 import java.util.Map;
@@ -132,22 +132,19 @@ public final class SchedulerYearlyTrigger implements SchedulerTrigger {
   @Override
   public long calculateNextExecution(Map<String, Object> content) {
     var zoneId = ZoneId.of((String) content.get("timezone"));
-    var now = LocalDateTime.now(zoneId);
     var parts = ((String) content.get("time")).split(":");
-    var targetDay = (int) content.get("day");
-    var targetMonth = (int) content.get("month");
-    var targetTime = now.withMonth(targetMonth)
-      .withDayOfMonth(Math.min(targetDay,
-        YearMonth.of(now.getYear(), targetMonth).lengthOfMonth()))
-      .withHour(Integer.parseInt(parts[0]))
-      .withMinute(Integer.parseInt(parts[1]))
-      .withSecond(0).withNano(0);
-    if (targetTime.isBefore(now)) {
-      targetTime = targetTime.plusYears(1).withMonth(targetMonth)
-        .withDayOfMonth(Math.min(targetDay,
-          YearMonth.of(targetTime.getYear(), targetMonth).lengthOfMonth()));
+    var hour = Integer.parseInt(parts[0]);
+    var minute = Integer.parseInt(parts[1]);
+    var day = (int) content.get("day");
+    var month = (int) content.get("month");
+    var cron = String.format("0 %s %s %s %s *", minute, hour, day, month);
+    try {
+      var trigger = new CronTrigger(cron, zoneId);
+      var nextExecution = trigger.nextExecution(CronTriggerContext.create());
+      return nextExecution.toEpochMilli() - 1000 * 30;
+    } catch (Exception exception) {
+      return -1;
     }
-    return targetTime.atZone(zoneId).toInstant().toEpochMilli() - 1000 * 30;
   }
 
   @Override
