@@ -57,9 +57,22 @@ public final class SchedulerDailyTrigger implements SchedulerTrigger {
 
   @Override
   public CompletableFuture<Void> insert(UUID triggerId, Map<String, Object> content) {
+    content.put("time", parseTime(content));
     return contentDatabaseTable.insertContent(triggerId,
       DatabaseRow.of(content.get("time"), content.get("timezone"),
         calculateNextExecution(content)));
+  }
+
+  private String parseTime(Map<String, Object> content) {
+    var time = content.get("time");
+    if (time == null) {
+      return "00:00";
+    }
+    var value = (String) time;
+    if (!value.matches("^([01]\\d|2[0-3]):([0-5]\\d)$")) {
+      return "00:00";
+    }
+    return value;
   }
 
   @Override
