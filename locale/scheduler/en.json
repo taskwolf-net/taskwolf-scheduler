@@ -41,5 +41,18 @@
   "scheduler.trigger.yearly.input.month.name": "Month",
   "scheduler.trigger.yearly.input.month.description": "The month of the year at which the triggering should take place. The value must be between 1 and 12",
   "scheduler.trigger.yearly.input.time.name": "Time",
-  "scheduler.trigger.yearly.input.time.description": "The time on the day at which the triggering should take place"
+  "scheduler.trigger.yearly.input.time.description": "The time on the day at which the triggering should take place",
+
+  "scheduler.trigger.individual.name": "Individual execution",
+  "scheduler.trigger.individual.description": "Is triggered at a time of your choice",
+  "scheduler.trigger.individual.input.minute.name": "Minute",
+  "scheduler.trigger.individual.input.minute.description": "The minute at which triggering is to take place\n\n<div class='text-start d-inline-block mx-auto'>*\tany value\n,\tvalue list separator\n-\trange of values\n/\tstep values</div>\n\n",
+  "scheduler.trigger.individual.input.hour.name": "Hour",
+  "scheduler.trigger.individual.input.hour.description": "The hour at which triggering is to take place\n\n<div class='text-start d-inline-block mx-auto'>*\tany value\n,\tvalue list separator\n-\trange of values\n/\tstep values</div>\n\n",
+  "scheduler.trigger.individual.input.day.week.name": "Day of the week",
+  "scheduler.trigger.individual.input.day.week.description": "The day of the week at which triggering is to take place\n\n<div class='text-start d-inline-block mx-auto'>*\tany value\n,\tvalue list separator\n-\trange of values\n/\tstep values</div>\n\n",
+  "scheduler.trigger.individual.input.day.month.name": "Day of the month",
+  "scheduler.trigger.individual.input.day.month.description": "The day of the month at which triggering is to take place\n\n<div class='text-start d-inline-block mx-auto'>*\tany value\n,\tvalue list separator\n-\trange of values\n/\tstep values</div>\n\n",
+  "scheduler.trigger.individual.input.month.name": "Month",
+  "scheduler.trigger.individual.input.month.description": "The month at which triggering is to take place\n\n<div class='text-start d-inline-block mx-auto'>*\tany value\n,\tvalue list separator\n-\trange of values\n/\tstep values</div>\n\n"
 }

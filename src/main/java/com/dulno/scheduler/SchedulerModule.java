@@ -14,6 +14,7 @@ import com.dulno.core.trigger.TriggerRepository;
 import com.dulno.scheduler.trigger.SchedulerTriggerSchedule;
 import com.dulno.scheduler.trigger.daily.SchedulerDailyTrigger;
 import com.dulno.scheduler.trigger.hourly.SchedulerHourlyTrigger;
+import com.dulno.scheduler.trigger.individual.SchedulerIndividualTrigger;
 import com.dulno.scheduler.trigger.monthly.SchedulerMonthlyTrigger;
 import com.dulno.scheduler.trigger.weekly.SchedulerWeeklyTrigger;
 import com.dulno.scheduler.trigger.weekly.WeekDayComponentSelect;
@@ -71,6 +72,8 @@ public final class SchedulerModule extends Module {
     repository.registerTrigger(SchedulerMonthlyTrigger.create(databaseConnection,
       databaseKeyspace));
     repository.registerTrigger(SchedulerYearlyTrigger.create(databaseConnection,
+      databaseKeyspace));
+    repository.registerTrigger(SchedulerIndividualTrigger.create(databaseConnection,
       databaseKeyspace));
     return repository;
   }

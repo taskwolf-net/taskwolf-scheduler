@@ -46,11 +46,7 @@ public final class SchedulerTriggerSchedule {
     executeSchedulerTriggers("scheduler-weekly-trigger");
     executeSchedulerTriggers("scheduler-monthly-trigger");
     executeSchedulerTriggers("scheduler-yearly-trigger");
-    executeIndividualTriggers();
-  }
-
-  private void executeIndividualTriggers() {
-    //TODO: TO BE IMPLEMENTED
+    executeSchedulerTriggers("scheduler-individual-trigger");
   }
 
   private void executeSchedulerTriggers(String type) {
