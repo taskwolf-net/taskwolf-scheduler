@@ -17,6 +17,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 import java.util.concurrent.CompletableFuture;
+import java.util.regex.Pattern;
 
 @RequiredArgsConstructor(access = AccessLevel.PROTECTED)
 public final class SchedulerIndividualTrigger implements SchedulerTrigger {
@@ -69,10 +70,26 @@ public final class SchedulerIndividualTrigger implements SchedulerTrigger {
 
   @Override
   public CompletableFuture<Void> insert(UUID triggerId, Map<String, Object> content) {
+    content.put("minute", parseIndividualField((String) content.get("minute")));
+    content.put("hour", parseIndividualField((String) content.get("hour")));
+    content.put("dayWeek", parseIndividualField((String) content.get("dayWeek")));
+    content.put("dayMonth", parseIndividualField((String) content.get("dayMonth")));
+    content.put("month", parseIndividualField((String) content.get("month")));
     return contentDatabaseTable.insertContent(triggerId,
       DatabaseRow.of(content.get("minute"), content.get("hour"),
         content.get("dayWeek"), content.get("dayMonth"), content.get("month"),
         content.get("timezone"), calculateNextExecution(content)));
+  }
+
+  private static final Pattern INDIVIDUAL_FIELD_PATTERN = Pattern.compile(
+    "^(\\*|([0-9]+(,[0-9]+)*|[0-9]+(-[0-9]+)?)(/[0-9]+)?)$");
+
+  private String parseIndividualField(String individualField) {
+    individualField = individualField.trim().replace(" ", "");
+    if (!INDIVIDUAL_FIELD_PATTERN.matcher(individualField).matches()) {
+      return "*";
+    }
+    return individualField;
   }
 
   @Override
@@ -95,13 +112,13 @@ public final class SchedulerIndividualTrigger implements SchedulerTrigger {
     var month = (String) content.get("month");
     var now = ZonedDateTime.now(zoneId);
     var nextTime = now.withSecond(0).withNano(0).plusMinutes(1);
-    while (!matchesCron(nextTime, minute, hour, dayWeek, dayMonth, month)) {
+    while (!matchesIndividual(nextTime, minute, hour, dayWeek, dayMonth, month)) {
       nextTime = nextTime.plusMinutes(1);
     }
     return nextTime.toInstant().toEpochMilli() - 1000 * 30;
   }
 
-  private boolean matchesCron(
+  private boolean matchesIndividual(
     ZonedDateTime dateTime, String minute, String hour, String dayOfWeek,
     String dayOfMonth, String month
   ) {
@@ -112,11 +129,11 @@ public final class SchedulerIndividualTrigger implements SchedulerTrigger {
       matchesField(dateTime.getMonthValue(), month);
   }
 
-  private boolean matchesField(int value, String cronField) {
-    if (isWildcard(cronField)) {
+  private boolean matchesField(int value, String individualField) {
+    if (isWildcard(individualField)) {
       return true;
     }
-    var parts = cronField.split(",");
+    var parts = individualField.split(",");
     for (var part : parts) {
       if (isStep(part)) {
         if (matchesStep(value, part)) {
@@ -135,8 +152,8 @@ public final class SchedulerIndividualTrigger implements SchedulerTrigger {
     return false;
   }
 
-  private boolean isWildcard(String cronField) {
-    return cronField.equals("*");
+  private boolean isWildcard(String individualField) {
+    return individualField.equals("*");
   }
 
   private boolean isStep(String part) {
