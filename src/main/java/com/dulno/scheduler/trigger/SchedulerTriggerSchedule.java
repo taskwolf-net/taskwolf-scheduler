@@ -8,10 +8,7 @@ import com.google.common.collect.Maps;
 import lombok.RequiredArgsConstructor;
 
 import java.time.Duration;
-import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.time.LocalTime;
-import java.time.format.DateTimeFormatter;
 import java.time.temporal.ChronoUnit;
 import java.util.UUID;
 import java.util.concurrent.Executors;
@@ -53,7 +50,9 @@ public final class SchedulerTriggerSchedule {
     var trigger = (SchedulerTrigger) triggerRepository.findTrigger(type).get();
     var condition = DatabaseCondition.of(DatabaseCondition.Filtering.ALLOWED,
       DatabaseComparison.create("nextExecution", System.currentTimeMillis(),
-        DatabaseComparison.Type.SMALLER_EQUALS));
+        DatabaseComparison.Type.SMALLER_EQUALS),
+      DatabaseComparison.create("nextExecution", 0L,
+        DatabaseComparison.Type.GREATER_EQUALS));
     coreModule.findSomeTriggerEntries("scheduler", type, condition)
       .thenAccept(entries -> entries.forEach(entry -> trigger.findContent(entry.id())
         .thenAccept(content -> trigger.updateNextExecution(entry.id(), content)

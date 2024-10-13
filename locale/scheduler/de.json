@@ -46,13 +46,13 @@
   "scheduler.trigger.individual.name": "Individuelle Ausführung",
   "scheduler.trigger.individual.description": "Wird zu einem von Ihnen gewählten Zeitpunkt ausgelöst",
   "scheduler.trigger.individual.input.minute.name": "Minute",
-  "scheduler.trigger.individual.input.minute.description": "Die Minute, in der die Auslösung erfolgen soll\n\n<div class='text-start d-inline-block mx-auto'>*\tbeliebiger Wert\n,\tWertetrenner\n-\tWertebereich\n/\tSchrittwerte</div>\n\n",
+  "scheduler.trigger.individual.input.minute.description": "Die Minute, in der die Auslösung erfolgen soll (0-59)\n\n<div class='text-start d-inline-block mx-auto'>*\tbeliebiger Wert\n,\tWertetrenner\n-\tWertebereich\n/\tSchrittwerte</div>\n\n",
   "scheduler.trigger.individual.input.hour.name": "Stunde",
-  "scheduler.trigger.individual.input.hour.description": "Die Stunde, zu der die Auslösung erfolgen soll\n\n<div class='text-start d-inline-block mx-auto'>*\tbeliebiger Wert\n,\tWertetrenner\n-\tWertebereich\n/\tSchrittwerte</div>\n\n",
+  "scheduler.trigger.individual.input.hour.description": "Die Stunde, zu der die Auslösung erfolgen soll (0-23)\n\n<div class='text-start d-inline-block mx-auto'>*\tbeliebiger Wert\n,\tWertetrenner\n-\tWertebereich\n/\tSchrittwerte</div>\n\n",
   "scheduler.trigger.individual.input.day.week.name": "Tag der Woche",
-  "scheduler.trigger.individual.input.day.week.description": "Der Wochentag, an dem die Auslösung erfolgen soll\n\n<div class='text-start d-inline-block mx-auto'>*\tbeliebiger Wert\n,\tWertetrenner\n-\tWertebereich\n/\tSchrittwerte</div>\n\n",
+  "scheduler.trigger.individual.input.day.week.description": "Der Wochentag, an dem die Auslösung erfolgen soll (1-7)\n\n<div class='text-start d-inline-block mx-auto'>*\tbeliebiger Wert\n,\tWertetrenner\n-\tWertebereich\n/\tSchrittwerte</div>\n\n",
   "scheduler.trigger.individual.input.day.month.name": "Tag des Monats",
-  "scheduler.trigger.individual.input.day.month.description": "Der Tag des Monats, an dem die Auslösung erfolgen soll\n\n<div class='text-start d-inline-block mx-auto'>*\tbeliebiger Wert\n,\tWertetrenner\n-\tWertebereich\n/\tSchrittwerte</div>\n\n",
+  "scheduler.trigger.individual.input.day.month.description": "Der Tag des Monats, an dem die Auslösung erfolgen soll (1-31)\n\n<div class='text-start d-inline-block mx-auto'>*\tbeliebiger Wert\n,\tWertetrenner\n-\tWertebereich\n/\tSchrittwerte</div>\n\n",
   "scheduler.trigger.individual.input.month.name": "Monat",
-  "scheduler.trigger.individual.input.month.description": "Der Monat, in dem die Auslösung erfolgen soll\n\n<div class='text-start d-inline-block mx-auto'>*\tbeliebiger Wert\n,\tWertetrenner\n-\tWertebereich\n/\tSchrittwerte</div>\n\n"
+  "scheduler.trigger.individual.input.month.description": "Der Monat, in dem die Auslösung erfolgen soll (1-12)\n\n<div class='text-start d-inline-block mx-auto'>*\tbeliebiger Wert\n,\tWertetrenner\n-\tWertebereich\n/\tSchrittwerte</div>\n\n"
 }
