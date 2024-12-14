@@ -7,8 +7,7 @@ import com.dulno.core.trigger.TriggerRepository;
 import com.google.common.collect.Maps;
 import lombok.RequiredArgsConstructor;
 
-import java.time.Duration;
-import java.time.LocalDateTime;
+import java.time.*;
 import java.time.temporal.ChronoUnit;
 import java.util.UUID;
 import java.util.concurrent.Executors;
@@ -38,17 +37,22 @@ public final class SchedulerTriggerSchedule {
   }
 
   private void execute() {
-    executeSchedulerTriggers("scheduler-hourly-trigger");
-    executeSchedulerTriggers("scheduler-daily-trigger");
-    executeSchedulerTriggers("scheduler-weekly-trigger");
-    executeSchedulerTriggers("scheduler-monthly-trigger");
-    executeSchedulerTriggers("scheduler-yearly-trigger");
-    executeSchedulerTriggers("scheduler-individual-trigger");
+    var currentMinute = LocalTime.now().getSecond() >= 30 ?
+      LocalTime.now().plusMinutes(1).getMinute() :
+      LocalTime.now().getMinute();
+    executeSchedulerTriggers("scheduler-hourly-trigger", currentMinute);
+    executeSchedulerTriggers("scheduler-daily-trigger", currentMinute);
+    executeSchedulerTriggers("scheduler-weekly-trigger", currentMinute);
+    executeSchedulerTriggers("scheduler-monthly-trigger", currentMinute);
+    executeSchedulerTriggers("scheduler-yearly-trigger", currentMinute);
+    executeSchedulerTriggers("scheduler-individual-trigger", currentMinute);
+    executeSchedulerTriggers("scheduler-individual-trigger", -1);
   }
 
-  private void executeSchedulerTriggers(String type) {
+  private void executeSchedulerTriggers(String type, int currentMinute) {
     var trigger = (SchedulerTrigger) triggerRepository.findTrigger(type).get();
-    var condition = DatabaseCondition.of(DatabaseCondition.Filtering.ALLOWED,
+    var condition = DatabaseCondition.of(
+      DatabaseComparison.create("minute", currentMinute),
       DatabaseComparison.create("nextExecution", System.currentTimeMillis(),
         DatabaseComparison.Type.SMALLER_EQUALS),
       DatabaseComparison.create("nextExecution", 0L,

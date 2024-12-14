@@ -8,6 +8,7 @@ import com.dulno.core.workflow.component.input.InputComponentDataType;
 import com.dulno.core.workflow.component.input.InputComponentVariable;
 import com.dulno.scheduler.trigger.CronTriggerContext;
 import com.dulno.scheduler.trigger.SchedulerTrigger;
+import com.dulno.scheduler.trigger.TriggerSchedulerDatabaseTable;
 import com.google.common.collect.Lists;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
@@ -25,19 +26,17 @@ public final class SchedulerIndividualTrigger implements SchedulerTrigger {
     DatabaseConnection databaseConnection, DatabaseKeyspace databaseKeyspace
   ) {
     var contentColumns = Lists.<DatabaseColumn>newArrayList();
-    contentColumns.add(DatabaseColumn.create("minute", DatabaseDataType.TEXT));
+    contentColumns.add(DatabaseColumn.create("cronMinute", DatabaseDataType.TEXT));
     contentColumns.add(DatabaseColumn.create("hour", DatabaseDataType.TEXT));
     contentColumns.add(DatabaseColumn.create("dayWeek", DatabaseDataType.TEXT));
     contentColumns.add(DatabaseColumn.create("dayMonth", DatabaseDataType.TEXT));
     contentColumns.add(DatabaseColumn.create("month", DatabaseDataType.TEXT));
-    contentColumns.add(DatabaseColumn.create("timezone", DatabaseDataType.TEXT));
-    contentColumns.add(DatabaseColumn.create("nextExecution", DatabaseDataType.BIGINT));
     return new SchedulerIndividualTrigger(
-      TriggerContentDatabaseTable.create(databaseConnection, databaseKeyspace,
+      TriggerSchedulerDatabaseTable.create(databaseConnection, databaseKeyspace,
         "trigger_scheduler_individual", contentColumns));
   }
 
-  private final TriggerContentDatabaseTable contentDatabaseTable;
+  private final TriggerSchedulerDatabaseTable contentDatabaseTable;
 
   @Override
   public String type() {
@@ -64,16 +63,16 @@ public final class SchedulerIndividualTrigger implements SchedulerTrigger {
 
   @Override
   public void initialize() {
-    contentDatabaseTable.createIfNotExists();
-    contentDatabaseTable.createIndexIfNotExists("nextExecution");
+    contentDatabaseTable.initialize();
   }
 
   @Override
   public CompletableFuture<Void> insert(UUID triggerId, Map<String, Object> content) {
     return contentDatabaseTable.insertContent(triggerId,
-      DatabaseRow.of(content.get("minute"), content.get("hour"),
-        content.get("dayWeek"), content.get("dayMonth"), content.get("month"),
-        content.get("timezone"), calculateNextExecution(content)));
+      findMinuteBucket(content), calculateNextExecution(content),
+      (String) content.get("timezone"), DatabaseRow.of(content.get("minute"),
+        content.get("hour"), content.get("dayWeek"), content.get("dayMonth"),
+        content.get("month")));
   }
 
   @Override
@@ -81,9 +80,18 @@ public final class SchedulerIndividualTrigger implements SchedulerTrigger {
     UUID triggerId, Map<String, Object> content
   ) {
     return contentDatabaseTable.updateContent(triggerId,
-      DatabaseRow.of(content.get("minute"), content.get("hour"),
-        content.get("dayWeek"), content.get("dayMonth"), content.get("month"),
-        content.get("timezone"), calculateNextExecution(content)));
+      findMinuteBucket(content), calculateNextExecution(content),
+      (String) content.get("timezone"), DatabaseRow.of(content.get("minute"),
+        content.get("hour"), content.get("dayWeek"), content.get("dayMonth"),
+        content.get("month")));
+  }
+
+  private int findMinuteBucket(Map<String, Object> content) {
+    try {
+      return Integer.parseInt((String) content.get("minute"));
+    } catch (Exception exception) {
+      return -1;
+    }
   }
 
   @Override
@@ -112,18 +120,18 @@ public final class SchedulerIndividualTrigger implements SchedulerTrigger {
   @Override
   public CompletableFuture<Map<String, Object>> findContent(UUID triggerId) {
     return contentDatabaseTable.findContent(triggerId).thenApply(row ->
-      Map.of("minute", row.findCell(1).stringValue(),
-        "hour", row.findCell(2).stringValue(),
-        "dayWeek", row.findCell(3).stringValue(),
-        "dayMonth", row.findCell(4).stringValue(),
-        "month", row.findCell(5).stringValue(),
-        "timezone", row.findCell(6).stringValue()));
+      Map.of("minute", row.findCell(4).stringValue(),
+        "hour", row.findCell(5).stringValue(),
+        "dayWeek", row.findCell(6).stringValue(),
+        "dayMonth", row.findCell(7).stringValue(),
+        "month", row.findCell(8).stringValue(),
+        "timezone", row.findCell(3).stringValue()));
   }
 
   @Override
   public CompletableFuture<List<UUID>> findEntries(DatabaseCondition condition) {
     return contentDatabaseTable.findContentByCondition(condition).thenApply(
-      rows -> rows.stream().map(row -> row.findCell(0).uuidValue()).toList());
+      rows -> rows.stream().map(row -> row.findCell(2).uuidValue()).toList());
   }
 
   @Override

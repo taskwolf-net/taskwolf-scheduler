@@ -1,12 +1,14 @@
 package com.dulno.scheduler.trigger.hourly;
 
-import com.dulno.core.database.*;
+import com.dulno.core.database.DatabaseConnection;
+import com.dulno.core.database.DatabaseKeyspace;
+import com.dulno.core.database.DatabaseRow;
 import com.dulno.core.database.condition.DatabaseCondition;
-import com.dulno.core.trigger.TriggerContentDatabaseTable;
 import com.dulno.core.trigger.TriggerInformation;
 import com.dulno.core.workflow.component.input.InputComponentDataType;
 import com.dulno.core.workflow.component.input.InputComponentVariable;
 import com.dulno.scheduler.trigger.SchedulerTrigger;
+import com.dulno.scheduler.trigger.TriggerSchedulerDatabaseTable;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import lombok.AccessLevel;
@@ -24,16 +26,12 @@ public final class SchedulerHourlyTrigger implements SchedulerTrigger {
   public static SchedulerHourlyTrigger create(
     DatabaseConnection databaseConnection, DatabaseKeyspace databaseKeyspace
   ) {
-    var contentColumns = Lists.<DatabaseColumn>newArrayList();
-    contentColumns.add(DatabaseColumn.create("offset", DatabaseDataType.INT));
-    contentColumns.add(DatabaseColumn.create("timezone", DatabaseDataType.TEXT));
-    contentColumns.add(DatabaseColumn.create("nextExecution", DatabaseDataType.BIGINT));
     return new SchedulerHourlyTrigger(
-      TriggerContentDatabaseTable.create(databaseConnection, databaseKeyspace,
-        "trigger_scheduler_hourly", contentColumns));
+      TriggerSchedulerDatabaseTable.create(databaseConnection, databaseKeyspace,
+        "trigger_scheduler_hourly", Lists.newArrayList()));
   }
 
-  private final TriggerContentDatabaseTable contentDatabaseTable;
+  private final TriggerSchedulerDatabaseTable contentDatabaseTable;
 
   @Override
   public String type() {
@@ -52,16 +50,15 @@ public final class SchedulerHourlyTrigger implements SchedulerTrigger {
 
   @Override
   public void initialize() {
-    contentDatabaseTable.createIfNotExists();
-    contentDatabaseTable.createIndexIfNotExists("nextExecution");
+    contentDatabaseTable.initialize();
   }
 
   @Override
   public CompletableFuture<Void> insert(UUID triggerId, Map<String, Object> content) {
     content.put("offset", parseOffset(content));
     return contentDatabaseTable.insertContent(triggerId,
-      DatabaseRow.of(content.get("offset"), content.get("timezone"),
-        calculateNextExecution(content)));
+      (int) content.get("offset"), calculateNextExecution(content),
+      (String) content.get("timezone"), DatabaseRow.of());
   }
 
   private int parseOffset(Map<String, Object> content) {
@@ -87,8 +84,8 @@ public final class SchedulerHourlyTrigger implements SchedulerTrigger {
     content = Maps.newHashMap(content);
     content.put("offset", Integer.parseInt((String) content.get("offset")));
     return contentDatabaseTable.updateContent(triggerId,
-      DatabaseRow.of(content.get("offset"), content.get("timezone"),
-        calculateNextExecution(content)));
+      (int) content.get("offset"), calculateNextExecution(content),
+      (String) content.get("timezone"), DatabaseRow.of());
   }
 
   @Override
@@ -106,14 +103,14 @@ public final class SchedulerHourlyTrigger implements SchedulerTrigger {
   @Override
   public CompletableFuture<Map<String, Object>> findContent(UUID triggerId) {
     return contentDatabaseTable.findContent(triggerId).thenApply(row ->
-      Map.of("offset", String.valueOf(row.findCell(1).integerValue()),
-        "timezone", row.findCell(2).stringValue()));
+      Map.of("offset", String.valueOf(row.findCell(0).integerValue()),
+        "timezone", row.findCell(3).stringValue()));
   }
 
   @Override
   public CompletableFuture<List<UUID>> findEntries(DatabaseCondition condition) {
     return contentDatabaseTable.findContentByCondition(condition).thenApply(
-      rows -> rows.stream().map(row -> row.findCell(0).uuidValue()).toList());
+      rows -> rows.stream().map(row -> row.findCell(2).uuidValue()).toList());
   }
 
   @Override

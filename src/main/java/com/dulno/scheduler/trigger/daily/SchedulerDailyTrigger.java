@@ -2,11 +2,11 @@ package com.dulno.scheduler.trigger.daily;
 
 import com.dulno.core.database.*;
 import com.dulno.core.database.condition.DatabaseCondition;
-import com.dulno.core.trigger.TriggerContentDatabaseTable;
 import com.dulno.core.trigger.TriggerInformation;
 import com.dulno.core.workflow.component.input.InputComponentDataType;
 import com.dulno.core.workflow.component.input.InputComponentVariable;
 import com.dulno.scheduler.trigger.SchedulerTrigger;
+import com.dulno.scheduler.trigger.TriggerSchedulerDatabaseTable;
 import com.google.common.collect.Lists;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
@@ -25,14 +25,12 @@ public final class SchedulerDailyTrigger implements SchedulerTrigger {
   ) {
     var contentColumns = Lists.<DatabaseColumn>newArrayList();
     contentColumns.add(DatabaseColumn.create("time", DatabaseDataType.TEXT));
-    contentColumns.add(DatabaseColumn.create("timezone", DatabaseDataType.TEXT));
-    contentColumns.add(DatabaseColumn.create("nextExecution", DatabaseDataType.BIGINT));
     return new SchedulerDailyTrigger(
-      TriggerContentDatabaseTable.create(databaseConnection, databaseKeyspace,
+      TriggerSchedulerDatabaseTable.create(databaseConnection, databaseKeyspace,
         "trigger_scheduler_daily", contentColumns));
   }
 
-  private final TriggerContentDatabaseTable contentDatabaseTable;
+  private final TriggerSchedulerDatabaseTable contentDatabaseTable;
 
   @Override
   public String type() {
@@ -51,16 +49,16 @@ public final class SchedulerDailyTrigger implements SchedulerTrigger {
 
   @Override
   public void initialize() {
-    contentDatabaseTable.createIfNotExists();
-    contentDatabaseTable.createIndexIfNotExists("nextExecution");
+    contentDatabaseTable.initialize();
   }
 
   @Override
   public CompletableFuture<Void> insert(UUID triggerId, Map<String, Object> content) {
-    content.put("time", parseTime(content));
+    var time = parseTime(content);
+    content.put("time", time);
     return contentDatabaseTable.insertContent(triggerId,
-      DatabaseRow.of(content.get("time"), content.get("timezone"),
-        calculateNextExecution(content)));
+      Integer.valueOf(time.split(":")[1]), calculateNextExecution(content),
+      (String) content.get("timezone"), DatabaseRow.of(time));
   }
 
   private String parseTime(Map<String, Object> content) {
@@ -79,9 +77,10 @@ public final class SchedulerDailyTrigger implements SchedulerTrigger {
   public CompletableFuture<Void> updateNextExecution(
     UUID triggerId, Map<String, Object> content
   ) {
+    var time = (String) content.get("time");
     return contentDatabaseTable.updateContent(triggerId,
-      DatabaseRow.of(content.get("time"), content.get("timezone"),
-        calculateNextExecution(content)));
+      Integer.valueOf(time.split(":")[1]), calculateNextExecution(content),
+      (String) content.get("timezone"), DatabaseRow.of(time));
   }
 
   @Override
@@ -102,14 +101,14 @@ public final class SchedulerDailyTrigger implements SchedulerTrigger {
   @Override
   public CompletableFuture<Map<String, Object>> findContent(UUID triggerId) {
     return contentDatabaseTable.findContent(triggerId).thenApply(row ->
-      Map.of("time", row.findCell(1).stringValue(),
-        "timezone", row.findCell(2).stringValue()));
+      Map.of("time", row.findCell(4).stringValue(),
+        "timezone", row.findCell(3).stringValue()));
   }
 
   @Override
   public CompletableFuture<List<UUID>> findEntries(DatabaseCondition condition) {
     return contentDatabaseTable.findContentByCondition(condition).thenApply(
-      rows -> rows.stream().map(row -> row.findCell(0).uuidValue()).toList());
+      rows -> rows.stream().map(row -> row.findCell(2).uuidValue()).toList());
   }
 
   @Override
