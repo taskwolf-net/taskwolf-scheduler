@@ -23,28 +23,28 @@ repositories {
 }
 
 dependencies {
-  testCompileOnly(platform("org.junit:junit-bom:5.10.2"))
-  testCompileOnly("org.junit.jupiter:junit-jupiter:5.10.2")
+  testCompileOnly(platform("org.junit:junit-bom:5.11.3"))
+  testCompileOnly("org.junit.jupiter:junit-jupiter:5.11.3")
 
   compileOnly("com.dulno:core:1.0.0-SNAPSHOT")
 
   compileOnly("com.google.inject:guice:7.0.0")
 
-  compileOnly("com.google.guava:guava:33.1.0-jre")
+  compileOnly("com.google.guava:guava:33.3.1-jre")
 
-  compileOnly("org.projectlombok:lombok:1.18.32")
-  annotationProcessor("org.projectlombok:lombok:1.18.32")
-  testCompileOnly("org.projectlombok:lombok:1.18.32")
-  testAnnotationProcessor("org.projectlombok:lombok:1.18.32")
+  compileOnly("org.projectlombok:lombok:1.18.36")
+  annotationProcessor("org.projectlombok:lombok:1.18.36")
+  testCompileOnly("org.projectlombok:lombok:1.18.36")
+  testAnnotationProcessor("org.projectlombok:lombok:1.18.36")
 
   compileOnly("com.datastax.oss:java-driver-core:4.17.0")
 
   compileOnly("org.json:json:20240303")
-  compileOnly("commons-io:commons-io:2.16.1")
+  compileOnly("commons-io:commons-io:2.18.0")
 
-  compileOnly("org.springframework.boot:spring-boot-starter-web:3.2.5")
+  compileOnly("org.springframework.boot:spring-boot-starter-web:3.4.0")
 
-  compileOnly("io.jsonwebtoken:jjwt:0.12.5")
+  compileOnly("io.jsonwebtoken:jjwt:0.12.6")
 }
 
 tasks.test {
