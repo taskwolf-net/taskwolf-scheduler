@@ -1,9 +1,9 @@
 package com.dulno.scheduler.trigger;
 
-import com.dulno.core.CoreModule;
 import com.dulno.core.database.condition.DatabaseComparison;
 import com.dulno.core.database.condition.DatabaseCondition;
-import com.dulno.core.trigger.TriggerRepository;
+import com.dulno.workflow.WorkflowModule;
+import com.dulno.workflow.trigger.TriggerRepository;
 import com.google.common.collect.Maps;
 import lombok.RequiredArgsConstructor;
 
@@ -17,7 +17,7 @@ import java.util.concurrent.TimeUnit;
 
 @RequiredArgsConstructor(staticName = "create")
 public final class SchedulerTriggerSchedule {
-  private final CoreModule coreModule;
+  private final WorkflowModule workflowModule;
   private final TriggerRepository triggerRepository;
   private final ScheduledExecutorService executorService = Executors.newScheduledThreadPool(1);
   private ScheduledFuture<?> scheduler;
@@ -57,14 +57,14 @@ public final class SchedulerTriggerSchedule {
         DatabaseComparison.Type.SMALLER_EQUALS),
       DatabaseComparison.create("nextExecution", 0L,
         DatabaseComparison.Type.GREATER_EQUALS));
-    coreModule.findSomeTriggerEntries("scheduler", type, condition)
+    workflowModule.findSomeTriggerEntries("scheduler", type, condition)
       .thenAccept(entries -> entries.forEach(entry -> trigger.findContent(entry.id())
         .thenAccept(content -> trigger.updateNextExecution(entry.id(), content)
           .thenAccept(value -> executeSchedulerTrigger(entry.id())))));
   }
 
   private void executeSchedulerTrigger(UUID triggerId) {
-    coreModule.createWorkflow(triggerId)
+    workflowModule.createWorkflow(triggerId)
       .thenAccept(workflow -> workflow.trigger(Maps.newHashMap()));
   }
 

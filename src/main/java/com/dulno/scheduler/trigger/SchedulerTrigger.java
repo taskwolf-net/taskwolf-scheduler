@@ -1,6 +1,6 @@
 package com.dulno.scheduler.trigger;
 
-import com.dulno.core.trigger.Trigger;
+import com.dulno.workflow.trigger.Trigger;
 
 import java.util.Map;
 import java.util.UUID;

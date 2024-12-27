@@ -2,9 +2,9 @@ package com.dulno.scheduler.trigger.weekly;
 
 import com.dulno.core.database.*;
 import com.dulno.core.database.condition.DatabaseCondition;
-import com.dulno.core.trigger.TriggerInformation;
-import com.dulno.core.workflow.component.input.InputComponentDataType;
-import com.dulno.core.workflow.component.input.InputComponentVariable;
+import com.dulno.workflow.trigger.TriggerInformation;
+import com.dulno.workflow.component.input.InputComponentDataType;
+import com.dulno.workflow.component.input.InputComponentVariable;
 import com.dulno.scheduler.trigger.SchedulerTrigger;
 import com.dulno.scheduler.trigger.TriggerSchedulerDatabaseTable;
 import com.google.common.collect.Lists;
