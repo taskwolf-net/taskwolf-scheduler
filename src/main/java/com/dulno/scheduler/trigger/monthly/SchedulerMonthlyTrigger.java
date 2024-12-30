@@ -57,7 +57,9 @@ public final class SchedulerMonthlyTrigger implements SchedulerTrigger {
   }
 
   @Override
-  public CompletableFuture<Void> insert(UUID triggerId, Map<String, Object> content) {
+  public CompletableFuture<Void> insert(
+    UUID triggerId, UUID ownerId, Map<String, Object> content
+  ) {
     content.put("day", parseDay(content));
     var time = parseTime(content);
     content.put("time", time);

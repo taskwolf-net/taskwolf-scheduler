@@ -53,7 +53,9 @@ public final class SchedulerDailyTrigger implements SchedulerTrigger {
   }
 
   @Override
-  public CompletableFuture<Void> insert(UUID triggerId, Map<String, Object> content) {
+  public CompletableFuture<Void> insert(
+    UUID triggerId, UUID ownerId, Map<String, Object> content
+  ) {
     var time = parseTime(content);
     content.put("time", time);
     return contentDatabaseTable.insertContent(triggerId,
