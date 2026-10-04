@@ -1,24 +1,24 @@
-package com.dulno.scheduler;
+package net.taskwolf.scheduler;
 
-import com.dulno.core.account.AccountLink;
-import com.dulno.workflow.WorkflowModule;
-import com.dulno.workflow.action.ActionRepository;
-import com.dulno.core.database.DatabaseConnection;
-import com.dulno.core.database.DatabaseKeyspace;
-import com.dulno.core.log.Log;
-import com.dulno.core.module.ModuleDescription;
-import com.dulno.core.module.ModuleInformation;
-import com.dulno.core.module.ModuleLoadPriority;
-import com.dulno.workflow.integration.Integration;
-import com.dulno.workflow.trigger.TriggerRepository;
-import com.dulno.scheduler.trigger.SchedulerTriggerSchedule;
-import com.dulno.scheduler.trigger.daily.SchedulerDailyTrigger;
-import com.dulno.scheduler.trigger.hourly.SchedulerHourlyTrigger;
-import com.dulno.scheduler.trigger.individual.SchedulerIndividualTrigger;
-import com.dulno.scheduler.trigger.monthly.SchedulerMonthlyTrigger;
-import com.dulno.scheduler.trigger.weekly.SchedulerWeeklyTrigger;
-import com.dulno.scheduler.trigger.weekly.WeekDayComponentSelect;
-import com.dulno.scheduler.trigger.yearly.SchedulerYearlyTrigger;
+import net.taskwolf.core.account.AccountLink;
+import net.taskwolf.workflow.WorkflowModule;
+import net.taskwolf.workflow.action.ActionRepository;
+import net.taskwolf.core.database.DatabaseConnection;
+import net.taskwolf.core.database.DatabaseKeyspace;
+import net.taskwolf.core.log.Log;
+import net.taskwolf.core.module.ModuleDescription;
+import net.taskwolf.core.module.ModuleInformation;
+import net.taskwolf.core.module.ModuleLoadPriority;
+import net.taskwolf.workflow.integration.Integration;
+import net.taskwolf.workflow.trigger.TriggerRepository;
+import net.taskwolf.scheduler.trigger.SchedulerTriggerSchedule;
+import net.taskwolf.scheduler.trigger.daily.SchedulerDailyTrigger;
+import net.taskwolf.scheduler.trigger.hourly.SchedulerHourlyTrigger;
+import net.taskwolf.scheduler.trigger.individual.SchedulerIndividualTrigger;
+import net.taskwolf.scheduler.trigger.monthly.SchedulerMonthlyTrigger;
+import net.taskwolf.scheduler.trigger.weekly.SchedulerWeeklyTrigger;
+import net.taskwolf.scheduler.trigger.weekly.WeekDayComponentSelect;
+import net.taskwolf.scheduler.trigger.yearly.SchedulerYearlyTrigger;
 import com.google.inject.Injector;
 
 @ModuleDescription(name = "scheduler", version = "1.0.0-SNAPSHOT",

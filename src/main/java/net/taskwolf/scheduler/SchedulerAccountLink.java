@@ -1,7 +1,7 @@
-package com.dulno.scheduler;
+package net.taskwolf.scheduler;
 
-import com.dulno.core.account.AccountLink;
-import com.dulno.core.account.AccountLinkEntry;
+import net.taskwolf.core.account.AccountLink;
+import net.taskwolf.core.account.AccountLinkEntry;
 import com.google.common.collect.Lists;
 import lombok.RequiredArgsConstructor;
 

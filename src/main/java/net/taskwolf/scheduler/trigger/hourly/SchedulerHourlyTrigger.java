@@ -1,14 +1,14 @@
-package com.dulno.scheduler.trigger.hourly;
+package net.taskwolf.scheduler.trigger.hourly;
 
-import com.dulno.core.database.DatabaseConnection;
-import com.dulno.core.database.DatabaseKeyspace;
-import com.dulno.core.database.DatabaseRow;
-import com.dulno.core.database.condition.DatabaseCondition;
-import com.dulno.workflow.trigger.TriggerInformation;
-import com.dulno.workflow.component.input.InputComponentDataType;
-import com.dulno.workflow.component.input.InputComponentVariable;
-import com.dulno.scheduler.trigger.SchedulerTrigger;
-import com.dulno.scheduler.trigger.TriggerSchedulerDatabaseTable;
+import net.taskwolf.core.database.DatabaseConnection;
+import net.taskwolf.core.database.DatabaseKeyspace;
+import net.taskwolf.core.database.DatabaseRow;
+import net.taskwolf.core.database.condition.DatabaseCondition;
+import net.taskwolf.workflow.trigger.TriggerInformation;
+import net.taskwolf.workflow.component.input.InputComponentDataType;
+import net.taskwolf.workflow.component.input.InputComponentVariable;
+import net.taskwolf.scheduler.trigger.SchedulerTrigger;
+import net.taskwolf.scheduler.trigger.TriggerSchedulerDatabaseTable;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import lombok.AccessLevel;

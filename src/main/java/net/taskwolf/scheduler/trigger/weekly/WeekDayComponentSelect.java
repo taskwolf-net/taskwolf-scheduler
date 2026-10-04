@@ -1,9 +1,9 @@
-package com.dulno.scheduler.trigger.weekly;
+package net.taskwolf.scheduler.trigger.weekly;
 
-import com.dulno.core.locale.Translation;
-import com.dulno.core.user.User;
-import com.dulno.workflow.component.input.InputComponentSelect;
-import com.dulno.workflow.component.input.InputComponentSelectEntry;
+import net.taskwolf.core.locale.Translation;
+import net.taskwolf.core.user.User;
+import net.taskwolf.workflow.component.input.InputComponentSelect;
+import net.taskwolf.workflow.component.input.InputComponentSelectEntry;
 import com.google.common.collect.Lists;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;

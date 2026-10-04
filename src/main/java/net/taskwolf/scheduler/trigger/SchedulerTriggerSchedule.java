@@ -1,9 +1,9 @@
-package com.dulno.scheduler.trigger;
+package net.taskwolf.scheduler.trigger;
 
-import com.dulno.core.database.condition.DatabaseComparison;
-import com.dulno.core.database.condition.DatabaseCondition;
-import com.dulno.workflow.WorkflowModule;
-import com.dulno.workflow.trigger.TriggerRepository;
+import net.taskwolf.core.database.condition.DatabaseComparison;
+import net.taskwolf.core.database.condition.DatabaseCondition;
+import net.taskwolf.workflow.WorkflowModule;
+import net.taskwolf.workflow.trigger.TriggerRepository;
 import com.google.common.collect.Maps;
 import lombok.RequiredArgsConstructor;
 

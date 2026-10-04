@@ -1,6 +1,6 @@
-package com.dulno.scheduler.trigger;
+package net.taskwolf.scheduler.trigger;
 
-import com.dulno.workflow.trigger.Trigger;
+import net.taskwolf.workflow.trigger.Trigger;
 
 import java.util.Map;
 import java.util.UUID;

@@ -1,4 +1,4 @@
-package com.dulno.scheduler.trigger;
+package net.taskwolf.scheduler.trigger;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.scheduling.TriggerContext;

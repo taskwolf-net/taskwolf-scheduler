@@ -1,4 +1,4 @@
-# Dulno - Scheduler
+# Taskwolf - Scheduler
 
 [![CI](https://github.com/taskwolf-net/taskwolf-scheduler/actions/workflows/ci.yml/badge.svg)](https://github.com/taskwolf-net/taskwolf-scheduler/actions/workflows/ci.yml)
 

@@ -1,7 +1,7 @@
-package com.dulno.scheduler.trigger;
+package net.taskwolf.scheduler.trigger;
 
-import com.dulno.core.database.*;
-import com.dulno.core.database.condition.DatabaseCondition;
+import net.taskwolf.core.database.*;
+import net.taskwolf.core.database.condition.DatabaseCondition;
 import com.google.common.collect.Lists;
 
 import java.util.List;
